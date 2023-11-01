@@ -1,0 +1,44 @@
+openapi: 3.0.2
+info:
+  title: Pet API
+  version: 1.0.0
+paths:
+  /pet:
+    get:
+      summary: Retrieve a pet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/Pet'
+              examples:
+                cat:
+                  summary: An example of a cat
+                  value:
+                    id: 2
+                    name: Fluffy
+                    photoUrls: []
+                dog:
+                  summary: An example of a dog
+                  value:
+                    id: 1
+                    name: Spot
+                    photoUrls:
+                      - https://images.dog.ceo/breeds/kelpie/n02105412_893.jpg
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          items:
+            type: string
