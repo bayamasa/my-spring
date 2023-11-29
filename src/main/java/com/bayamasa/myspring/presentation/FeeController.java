@@ -11,10 +11,6 @@ public class FeeController {
 
   @GetMapping("/fee")
   public String fee(@RequestParam String type) {
-    FeeType feeType = FeeType.safeValueOf(type);
-    if (feeType == FeeType.invalid) {
-      return "不正な値です";
-    }
-    return feeType.yen() + "円";
+    return FeeType.safeValueOf(type).yen() + "円";
   }
 }

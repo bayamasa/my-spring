@@ -3,7 +3,12 @@ package com.bayamasa.myspring.domain.fee;
 public enum FeeType {
   adult(new AdultFee()),
   child(new ChildFee()),
-  invalid(null);
+  invalid(new Fee() {
+    @Override
+    public int yen() {
+      return Fee.DEFAULT_FEE;
+    }
+  });
 
   private final Fee fee;
 
@@ -12,23 +17,21 @@ public enum FeeType {
   }
 
   public int yen() {
-    return this.fee.yen();
+    return fee.yen();
   }
 
   /**
    * FeeType.valueOf()を安全に呼び出せるようにする
-   * valueOfをつかった場合、存在しない値を渡すとIllegalArgumentExceptionが発生するが、これを防ぐ
-   * 存在しない値を渡した場合はinvalidを返す
+   * valueOfをつかった場合、存在しない値を渡すとIllegalArgumentExceptionが発生するが、これが外にもれないようにする
    *
    * @param name FeeTypeの名前
    * @return FeeType
    */
   public static FeeType safeValueOf(String name) {
-    for (FeeType type : FeeType.values()) {
-      if (type.name().equals(name)) {
-        return type;
-      }
+    try {
+      return FeeType.valueOf(name);
+    } catch (IllegalArgumentException e) {
+      return invalid;
     }
-    return invalid;
   }
 }
